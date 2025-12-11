@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Modular Webpage</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #eef2ff;
+            padding: 40px;
+        }
+
+        h1 { margin-bottom: 25px; }
+
+        #panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 17px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: black;
+            color: white;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .shape {
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+            transition: 0.4s;
+        }
+
+        #box {
+            background: coral;
+            border-radius: 8px;
+        }
+
+        #circle {
+            background: skyblue;
+            border-radius: 50%;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Modular Interactive Webpage (Lab Task)</h1>
+
+    <!-- Control Panel Buttons -->
+    <div id="panel">
+        <button onclick="runAction('color')">Change Box Color</button>
+        <button onclick="runAction('move')">Move Circle</button>
+        <button onclick="runAction('resize')">Resize Box</button>
+        <button onclick="runAction('toggle')">Toggle Visibility</button>
+    </div>
+
+    <!-- Shapes -->
+    <div id="box" class="shape"></div>
+    <div id="circle" class="shape"></div>
+
+    <div id="status">Status: Waiting for action...</div>
+
+    <script>
+
+        /* ------------------------------------------------------
+            CALLBACK FUNCTIONS
+        ---------------------------------------------------------*/
+
+        function changeColorCallback() {
+            let box = document.getElementById("box");
+            box.style.background = "#" + Math.floor(Math.random()*16777215).toString(16);
+            updateStatus("Box color changed!");
+        }
+
+        function moveCircleCallback() {
+            let circle = document.getElementById("circle");
+            circle.style.transform = "translateX(100px)";
+            updateStatus("Circle moved!");
+        }
+
+        function resizeBoxCallback() {
+            let box = document.getElementById("box");
+            let newSize = Math.floor(Math.random()*150 + 80);
+            box.style.width = newSize + "px";
+            box.style.height = newSize + "px";
+            updateStatus("Box resized!");
+        }
+
+        function toggleVisibilityCallback() {
+            let box = document.getElementById("box");
+            let circle = document.getElementById("circle");
+
+            box.style.display = (box.style.display === "none") ? "block" : "none";
+            circle.style.display = (circle.style.display === "none") ? "block" : "none";
+
+            updateStatus("Visibility toggled!");
+        }
+
+        /* ------------------------------------------------------
+            HIGHER-ORDER FUNCTION (accepts a callback function)
+        ---------------------------------------------------------*/
+        function performAction(actionName, callback) {
+            console.log("Performing:", actionName);
+            callback(); // executes callback
+        }
+
+
+        /* ------------------------------------------------------
+            SWITCH STATEMENT TO SELECT ACTION
+        ---------------------------------------------------------*/
+        function runAction(type) {
+            switch(type) {
+                case 'color':
+                    performAction("Change Color", changeColorCallback);
+                    break;
+
+                case 'move':
+                    performAction("Move Circle", moveCircleCallback);
+                    break;
+
+                case 'resize':
+                    performAction("Resize Box", resizeBoxCallback);
+                    break;
+
+                case 'toggle':
+                    performAction("Toggle Visibility", toggleVisibilityCallback);
+                    break;
+
+                default:
+                    updateStatus("Unknown action.");
+            }
+        }
+
+
+        /* ------------------------------------------------------
+            STATUS UPDATE FUNCTION
+        ---------------------------------------------------------*/
+        function updateStatus(msg) {
+            document.getElementById("status").innerText = "Status: " + msg;
+        }
+
+    </script>
+</body>
+</html>
