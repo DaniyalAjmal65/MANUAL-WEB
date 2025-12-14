@@ -1,1 +1,1 @@
-# Web-Tech-Lab-Manual-Daniyal-Ajmal
+# Quiz-App
